@@ -1,6 +1,6 @@
 import * as Quill from 'quill';
 
-import { NgZone, SimpleChanges, KeyValueDiffers,
+import { NgZone, SimpleChanges, KeyValueDiffer, KeyValueDiffers,
   Directive, Optional, Inject, OnInit, DoCheck, OnDestroy, OnChanges,
   Input, HostBinding, Output, EventEmitter, ElementRef } from '@angular/core';
 
@@ -15,7 +15,9 @@ import { QuillConfig, QuillConfigInterface } from './quill.interfaces';
 export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   private instance: any;
 
-  private configDiff: any;
+  private hasFocus: boolean;
+
+  private configDiff: KeyValueDiffer<any, any>;
 
   private defaultToolbarConfig: any = [
     ['bold', 'italic', 'underline', 'strike'],
@@ -67,9 +69,13 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     this.editorCreate.emit(this.instance);
 
     this.instance.on('selection-change', (range: any, oldRange: any, source: string) => {
-      if (!range) {
+      if (!range && this.hasFocus) {
+        this.hasFocus = false;
+
         this.blur.emit(this.instance);
-      } else {
+      } else if (range && !this.hasFocus) {
+        this.hasFocus = true;
+
         this.focus.emit(this.instance);
       }
 
@@ -106,12 +112,10 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   ngDoCheck() {
-    /*if (this.configDiff) {
+    if (this.configDiff) {
       const changes = this.configDiff.diff(this.config || {});
 
       if (changes) {
-        this.initialIndex = this.getIndex(true);
-
         this.ngOnDestroy();
 
         // Timeout is needed for the styles to update properly
@@ -119,17 +123,21 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
           this.ngOnInit();
         }, 0);
       }
-    }*/
+    }
   }
 
   ngOnDestroy() {
-    /*if (this.swiper) {
-      this.zone.runOutsideAngular(() => {
-        this.swiper.destroy(true, true);
-      });
+    if (this.instance) {
+      const toolbar = this.instance.getModule('toolbar');
 
-      this.swiper = null;
-    }*/
+      if (toolbar && toolbar.container) {
+        toolbar.container.remove();
+      }
+
+      delete this.instance;
+
+      this.instance = null;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -150,5 +158,9 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   public quill() {
     return this.instance;
+  }
+
+  public clear(source?: string) {
+    this.instance.deleteText(0, this.instance.getLength(), source);
   }
 }

@@ -15,23 +15,24 @@ export class AppComponent {
 
   public config: QuillConfigInterface = {
     theme: 'snow',
-    readOnly: false,
-    modules: {
-      toolbar: [
-        [{ 'size': ['small', false, 'large'] }],
-
-        ['bold', 'italic'],
-
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'align': [] }, { 'list': 'bullet' }]
-      ]
-    }
+    readOnly: false
   };
+
+  private toolbar: any = [
+    [{ 'size': ['small', false, 'large'] }],
+
+    ['bold', 'italic'],
+
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'align': [] }, { 'list': 'bullet' }]
+  ];
 
   @ViewChild(QuillComponent) componentRef: QuillComponent;
   @ViewChild(QuillDirective) directiveRef: QuillDirective;
 
-  constructor() {}
+  constructor() {
+    this.config.modules = { toolbar: this.toolbar };
+  }
 
   toggleType() {
     this.type = this.type === 'component' ? 'directive' : 'component';
@@ -42,6 +43,8 @@ export class AppComponent {
   }
 
   toggleToolbar() {
+    this.config.modules = (this.config.modules.toolbar) ?
+      { toolbar: false } : { toolbar: this.toolbar };
   }
 
   toggleReadonly() {
@@ -49,17 +52,30 @@ export class AppComponent {
   }
 
   clearEditorContent() {
+    if (this.type === 'directive') {
+      this.directiveRef.clear();
+    } else if (this.type === 'component') {
+      this.componentRef.directiveRef.clear();
+    }
+  }
+
+  onEditorBlur(event: any) {
+    console.log('Editor blur:', event);
+  }
+
+  onEditorFocus(event: any) {
+    console.log('Editor focus:', event);
   }
 
   onEditorCreate(event: any) {
-    console.log('Editor create: ', event);
+    console.log('Editor create:', event);
   }
 
   onContentChange(event: any) {
-    console.log('Content change: ', event);
+    console.log('Content change:', event);
   }
 
   onSelectionChange(event: any) {
-    console.log('Selection change: ', event);
+    console.log('Selection change:', event);
   }
 }

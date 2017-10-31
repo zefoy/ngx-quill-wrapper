@@ -26,10 +26,10 @@
       <div class="box-title">Quill</div>
 
       <div class="content-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex>
-        <quill *ngIf="type == 'component' && show" fxFlex [config]="config" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
+        <quill *ngIf="type == 'component' && show" fxFlex [config]="config" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
         </quill>
 
-        <div *ngIf="type == 'directive' && show" class="quill-editor" fxFlex [quill]="config" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
+        <div *ngIf="type == 'directive' && show" class="quill-editor" fxFlex [quill]="config" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
         </div>
       </div>
     </div>
