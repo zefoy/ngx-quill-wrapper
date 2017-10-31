@@ -41,8 +41,14 @@ export class AppComponent {
     this.config.theme = (this.config.theme === 'snow') ? 'bubble' : 'snow';
   }
 
+  toggleToolbar() {
+  }
+
   toggleReadonly() {
     this.config.readOnly = (this.config.readOnly === true) ? false : true;
+  }
+
+  clearEditorContent() {
   }
 
   onEditorCreate(event: any) {

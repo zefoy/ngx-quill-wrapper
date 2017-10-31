@@ -2,7 +2,7 @@
   <div class="app-title">Simple example app for the ngx-quill-wrapper</div>
 
   <div class="info-container">
-    This example only shows some of the available toolbar tools, to see all check Quill documentation.
+    This example only shows some of the available toolbar tools, to see all check Quill demos / documentation.
   </div>
 
   <div class="horizontal-container" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="stretch" fxFlex>
@@ -14,7 +14,11 @@
 
         <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex (click)='toggleTheme()'>{{(config.theme == "snow") ? "Change to bubble theme" : "Change to snow theme"}}</div>
 
-        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex (click)='toggleSlidesPerView()'>Toggle read-only mode</div>
+        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex (click)='toggleToolbar()'>Toggle toolbar showing</div>
+
+        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex (click)='toggleReadonly()'>Toggle read-only mode</div>
+
+        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex (click)='clearEditorContent()'>Clear the editor content</div>
       </div>
     </div>
 
