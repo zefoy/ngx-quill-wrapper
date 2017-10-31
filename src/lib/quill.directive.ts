@@ -63,6 +63,10 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
     params.assign(this.config); // Custom configuration
 
+    if (!params.modules) {
+      params.modules = { toolbar: true };
+    }
+
     if (this.autoToolbar && !this.showToolbar) {
       params.modules.toolbar = false;
     } else if (params.modules && params.modules.toolbar === true) {

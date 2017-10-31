@@ -14,6 +14,8 @@ import { QuillConfigInterface } from './quill.interfaces';
   encapsulation: ViewEncapsulation.None
 })
 export class QuillComponent {
+  @Input() value: string = null;
+
   @Input() disabled: boolean = false;
 
   @Input() autoToolbar: boolean = false;
@@ -27,6 +29,8 @@ export class QuillComponent {
 
   @Output() blur = new EventEmitter<any>();
   @Output() focus = new EventEmitter<any>();
+
+  @Output() valueChange = new EventEmitter<string>();
 
   @Output() editorCreate = new EventEmitter<any>();
   @Output() contentChange = new EventEmitter<any>();

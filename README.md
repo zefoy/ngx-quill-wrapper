@@ -68,7 +68,7 @@ Simply replace the element that would ordinarily be passed to `Quill` with the q
 **NOTE:** Component provides default toolbar element which you can enable by setting the appropriate configuration to 'true' or by providing custom toolbar config. If you want to use custom toolbar then you need to use custom selector / provide the element or use the toolbar attribute.
 
 ```html
-<quill [config]="config" [(content)]="content">
+<quill [config]="config" [(value)]="value">
   <div quillToolbar><!-- Optional custom toolbar --></div>
 
   <div quillContent><!-- Optional pre-filled content --></div>
@@ -77,14 +77,17 @@ Simply replace the element that would ordinarily be passed to `Quill` with the q
 
 ```javascript
 [config]           // Custom config to override the global defaults.
-[disabled]         // Disables all quill functionality (locks the quill).
 
-[ngModel]          // Set initial value or allow two-way data binding.
+[value]            // Input value of the quill editor content (html).
+
+[disabled]         // Disables all functionality of quill and modules.
 
 [autoToolbar]      // Only show toolbar when the editor is focused.
                    // Allows using same toolbar for multiple editors.
 
 [useQuillClass]    // Use quill class (use provided default styles).
+
+(valueChange)      // Event handler for the input value change event.
 
 (editorCreate)     // Event handler for the quill editor create event.
 (contentChange)    // Event handler for the quill content change event.
@@ -111,10 +114,8 @@ Quill directive can be used in correctly structured div element with optional cu
 
 ```javascript
 [quill]            // Custom config to override the global defaults.
-[disabled]         // Disables all quill functionality (locks the quill).
 
-[autoToolbar]      // Only show toolbar when the editor is focused.
-                   // Allows using same toolbar for multiple editors.
+[disabled]         // Disables all functionality of quill and modules.
 
 (editorCreate)     // Event handler for the quill editor create event.
 (contentChange)    // Event handler for the quill content change event.
