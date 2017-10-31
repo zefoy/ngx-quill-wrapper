@@ -13,9 +13,12 @@ import { QuillConfig, QuillConfigInterface } from './quill.interfaces';
   exportAs: 'ngxQuill'
 })
 export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
-  private instance: any;
+  private instance: any = null;
 
-  private hasFocus: boolean;
+  private selection: any = null;
+
+  private hasFocus: boolean = false;
+  private showToolbar: boolean = false;
 
   private configDiff: KeyValueDiffer<any, any>;
 
@@ -41,6 +44,8 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   @Input() disabled: boolean = false;
 
+  @Input() autoToolbar: boolean = false;
+
   @Input('quill') config: QuillConfigInterface;
 
   @Output() blur = new EventEmitter<any>();
@@ -56,9 +61,11 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   ngOnInit() {
     const params = new QuillConfig(this.defaults);
 
-    Object.assign(params, this.config); // Custom config
+    params.assign(this.config); // Custom configuration
 
-    if (params.modules && params.modules.toolbar === true) {
+    if (this.autoToolbar && !this.showToolbar) {
+      params.modules.toolbar = false;
+    } else if (params.modules && params.modules.toolbar === true) {
       params.modules.toolbar = this.defaultToolbarConfig;
     }
 
@@ -68,24 +75,11 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
     this.editorCreate.emit(this.instance);
 
-    this.instance.on('selection-change', (range: any, oldRange: any, source: string) => {
-      if (!range && this.hasFocus) {
-        this.hasFocus = false;
+    if (this.hasFocus === true) {
+      this.instance.focus();
 
-        this.blur.emit(this.instance);
-      } else if (range && !this.hasFocus) {
-        this.hasFocus = true;
-
-        this.focus.emit(this.instance);
-      }
-
-      this.selectionChange.emit({
-        editor: this.instance,
-        range: range,
-        oldRange: oldRange,
-        source: source
-      });
-    });
+      this.instance.setSelection(this.selection);
+    }
 
     this.instance.on('text-change', (delta: any, oldDelta: any, source: string) => {
       let html: (string | null) = this.elementRef.nativeElement.children[0].innerHTML;
@@ -104,6 +98,44 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
         oldDelta: oldDelta,
         source: source
       });
+    });
+
+    this.instance.on('selection-change', (range: any, oldRange: any, source: string) => {
+      const showToolbar = this.showToolbar;
+
+      if (!range && this.hasFocus) {
+        this.hasFocus = false;
+
+        this.blur.emit(this.instance);
+
+        if (this.autoToolbar === true && this.showToolbar === true) {
+          this.showToolbar = false;
+        }
+      } else if (range && !this.hasFocus) {
+        this.hasFocus = true;
+
+        this.focus.emit(this.instance);
+
+        if (this.autoToolbar === true && this.showToolbar === false) {
+          this.showToolbar = true;
+        }
+      } else {
+        this.selectionChange.emit({
+          editor: this.instance,
+          range: range,
+          oldRange: oldRange,
+          source: source
+        });
+      }
+
+      if (showToolbar !== this.showToolbar) {
+        this.ngOnDestroy();
+
+        // Timeout is needed for the styles to update properly
+        setTimeout(() => {
+          this.ngOnInit();
+        }, 0);
+      }
     });
 
     if (!this.configDiff) {
@@ -128,9 +160,13 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     if (this.instance) {
+      this.selection = this.instance.getSelection();
+
       const toolbar = this.instance.getModule('toolbar');
 
-      if (toolbar && toolbar.container) {
+      if (toolbar && toolbar.container &&
+          Array.isArray(toolbar.options.container))
+      {
         toolbar.container.remove();
       }
 
@@ -141,15 +177,15 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    /*if (this.swiper && changes['disabled']) {
+    /*if (this.instance && changes['disabled']) {
       if (changes['disabled'].currentValue !== changes['disabled'].previousValue) {
         if (changes['disabled'].currentValue === true) {
           this.zone.runOutsideAngular(() => {
-            this.swiper.lockSwipes();
+            this.instance.disable();
           });
         } else if (changes['disabled'].currentValue === false) {
           this.zone.runOutsideAngular(() => {
-            this.swiper.unlockSwipes();
+            this.instance.enable();
           });
         }
       }

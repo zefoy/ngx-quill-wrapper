@@ -16,6 +16,8 @@ import { QuillConfigInterface } from './quill.interfaces';
 export class QuillComponent {
   @Input() disabled: boolean = false;
 
+  @Input() autoToolbar: boolean = false;
+
   @Input() config: QuillConfigInterface;
 
   @HostBinding('class.quill')

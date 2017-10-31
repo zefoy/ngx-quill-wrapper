@@ -81,6 +81,9 @@ Simply replace the element that would ordinarily be passed to `Quill` with the q
 
 [ngModel]          // Set initial value or allow two-way data binding.
 
+[autoToolbar]      // Only show toolbar when the editor is focused.
+                   // Allows using same toolbar for multiple editors.
+
 [useQuillClass]    // Use quill class (use provided default styles).
 
 (editorCreate)     // Event handler for the quill editor create event.
@@ -110,6 +113,9 @@ Quill directive can be used in correctly structured div element with optional cu
 [quill]            // Custom config to override the global defaults.
 [disabled]         // Disables all quill functionality (locks the quill).
 
+[autoToolbar]      // Only show toolbar when the editor is focused.
+                   // Allows using same toolbar for multiple editors.
+
 (editorCreate)     // Event handler for the quill editor create event.
 (contentChange)    // Event handler for the quill content change event.
 (selectionChange)  // Event handler for the quill selection change event.
@@ -129,6 +135,8 @@ For more detailed documentation with all the supported config options see [quill
 
 ```javascript
 quill()            // Returns the Quill instance reference for full API access.
+
+clear(source?)     // Clear the editor content (source: 'api', 'user', 'silent').
 ```
 
 Above functions can be accessed through the directive reference (available as directiveRef in the component).

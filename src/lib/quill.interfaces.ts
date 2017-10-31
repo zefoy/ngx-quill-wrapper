@@ -34,6 +34,10 @@ export class QuillConfig implements QuillConfigInterface {
   scrollingContainer: string | HTMLElement;
 
   constructor(config: QuillConfigInterface = {}) {
+    this.assign(config);
+  }
+
+  assign(config: QuillConfigInterface = {}) {
     const copy = (JSON.parse(JSON.stringify(config || {})));
 
     Object.assign(this, copy);
