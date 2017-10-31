@@ -1,0 +1,38 @@
+/*
+@import '../../node_modules/quill/dist/quill.snow';
+@import '../../node_modules/quill/dist/quill.bubble';
+*/
+quill {
+  &.quill {
+    /* stylelint-disable */
+    &[fxflex] {
+      display: flex;
+      flex-direction: inherit;
+      -webkit-box-orient: inherit;
+      -webkit-box-direction: inherit;
+      min-width: 0;
+      min-height: 0;
+
+      & > .ql-toolbar {
+        flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        -webkit-box-flex: 0;
+      }
+
+      & > .ql-container {
+        flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+        -webkit-box-flex: 1;
+        min-width: 0;
+        min-height: 0;
+      }
+    }
+    /* stylelint-enable */
+
+    & > .ql-toolbar {
+      & > .ql-formats {
+        margin-right: 12px;
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "inlineSources": true,
+    "lib": ["dom", "es2015"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "../dist",
+    "rootDir": ".",
+    "rootDirs": [
+      ".",
+      "../dist"
+    ],
+    "sourceMap": true,
+    "target": "es5",
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "files": [
+    "index.ts",
+    "lib/quill.module.ts",
+    "lib/quill.component.ts",
+    "lib/quill.directive.ts",
+    "lib/quill.interfaces.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipMetadataEmit" : false,
+    "skipTemplateCodegen": true
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true
+  }
+}
