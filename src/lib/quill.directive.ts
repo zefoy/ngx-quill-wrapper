@@ -68,6 +68,8 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
       params.modules = { toolbar: false }; // Disable toolbar
     } else {
+      params.theme = params.theme || 'snow';
+
       if (!params.modules) {
         params.modules = { toolbar: true }; // Default modules
       }
