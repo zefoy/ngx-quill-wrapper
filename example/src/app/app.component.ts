@@ -13,6 +13,8 @@ export class AppComponent {
 
   public type: string = 'component';
 
+  public disabled: boolean = false;
+
   public config: QuillConfigInterface = {
     theme: 'snow',
     readOnly: false
@@ -47,6 +49,10 @@ export class AppComponent {
       { toolbar: false } : { toolbar: this.toolbar };
   }
 
+  toggleDisabled() {
+    this.disabled = !this.disabled;
+  }
+
   toggleReadonly() {
     this.config.readOnly = (this.config.readOnly === true) ? false : true;
   }
@@ -69,6 +75,10 @@ export class AppComponent {
 
   onEditorCreate(event: any) {
     console.log('Editor create:', event);
+  }
+
+  onValueChange(value: string) {
+    console.log('Value change:', value);
   }
 
   onContentChange(event: any) {

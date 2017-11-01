@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter,
+import { Component, AfterViewInit, Input, Output, EventEmitter,
   HostBinding, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { QUILL_CONFIG } from './quill.interfaces';
@@ -13,8 +13,13 @@ import { QuillConfigInterface } from './quill.interfaces';
   styleUrls: [ './quill.component.css' ],
   encapsulation: ViewEncapsulation.None
 })
-export class QuillComponent {
-  @Input() value: string = null;
+export class QuillComponent implements AfterViewInit {
+  private content: string = null;
+
+  @Input()
+  set value(value: string) {
+    this.setContent(value);
+  }
 
   @Input() disabled: boolean = false;
 
@@ -37,4 +42,26 @@ export class QuillComponent {
   @Output() selectionChange = new EventEmitter<any>();
 
   constructor() {}
+
+  ngAfterViewInit() {
+    if (this.content != null) {
+      this.setContent(this.content);
+    }
+  }
+
+  private setContent(value: string) {
+    if (!this.directiveRef || !this.directiveRef.quill()) {
+      this.content = value;
+    } else {
+      const contents = this.directiveRef.quill().clipboard.convert(value);
+
+      this.directiveRef.quill().setContents(contents, 'silent');
+    }
+  }
+
+  public onContentChange(event: any) {
+    this.contentChange.emit(event);
+
+    this.valueChange.emit(event.html);
+  }
 }

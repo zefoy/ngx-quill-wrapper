@@ -20,7 +20,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   private hasFocus: boolean = false;
   private showToolbar: boolean = false;
 
-  private configDiff: KeyValueDiffer<any, any>;
+  private configDiff: KeyValueDiffer<string, any>;
 
   private defaultToolbarConfig: any = [
     ['bold', 'italic', 'underline', 'strike'],
@@ -63,18 +63,30 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
     params.assign(this.config); // Custom configuration
 
-    if (!params.modules) {
-      params.modules = { toolbar: true };
-    }
+    if (this.disabled) {
+      params.readOnly = true;
 
-    if (this.autoToolbar && !this.showToolbar) {
-      params.modules.toolbar = false;
-    } else if (params.modules && params.modules.toolbar === true) {
-      params.modules.toolbar = this.defaultToolbarConfig;
+      params.modules = { toolbar: false }; // Disable toolbar
+    } else {
+      if (!params.modules) {
+        params.modules = { toolbar: true }; // Default modules
+      }
+
+      if (this.autoToolbar && !this.showToolbar) {
+        params.modules.toolbar = false;
+      } else if (params.modules && params.modules.toolbar === true) {
+        params.modules.toolbar = this.defaultToolbarConfig;
+      }
     }
 
     this.zone.runOutsideAngular(() => {
       this.instance = new Quill(this.elementRef.nativeElement, params);
+
+      if (!params.readOnly) {
+        this.instance.enable();
+      } else {
+        this.instance.disable();
+      }
     });
 
     this.editorCreate.emit(this.instance);
@@ -135,15 +147,14 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
       if (showToolbar !== this.showToolbar) {
         this.ngOnDestroy();
 
-        // Timeout is needed for the styles to update properly
-        setTimeout(() => {
-          this.ngOnInit();
-        }, 0);
+        this.ngOnInit();
       }
     });
 
     if (!this.configDiff) {
       this.configDiff = this.differs.find(this.config || {}).create();
+
+      this.configDiff.diff(this.config || {});
     }
   }
 
@@ -154,10 +165,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
       if (changes) {
         this.ngOnDestroy();
 
-        // Timeout is needed for the styles to update properly
-        setTimeout(() => {
-          this.ngOnInit();
-        }, 0);
+        this.ngOnInit();
       }
     }
   }
@@ -181,19 +189,15 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    /*if (this.instance && changes['disabled']) {
+    if (this.instance && changes['disabled']) {
       if (changes['disabled'].currentValue !== changes['disabled'].previousValue) {
-        if (changes['disabled'].currentValue === true) {
-          this.zone.runOutsideAngular(() => {
-            this.instance.disable();
-          });
-        } else if (changes['disabled'].currentValue === false) {
-          this.zone.runOutsideAngular(() => {
-            this.instance.enable();
-          });
-        }
+        this.zone.runOutsideAngular(() => {
+          this.ngOnDestroy();
+
+          this.ngOnInit();
+        });
       }
-    }*/
+    }
   }
 
   public quill() {

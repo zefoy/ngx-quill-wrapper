@@ -15,7 +15,7 @@
   },
   "scripts": {
     "init": "npm install",
-    "start": "npm run build",
+    "start": "npm run build ; npm run inline",
     "watch": "watch 'npm run build' src/",
     "clean": "rm -rf dist bundles node_modules",
     "lint": "npm run lint:js && npm run lint:scss",
