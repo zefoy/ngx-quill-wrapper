@@ -10,8 +10,8 @@ import { QuillConfigInterface } from './quill.interfaces';
 
 @Component({
   selector: 'quill',
-  templateUrl: './quill.component.html',
-  styleUrls: [ './quill.component.css' ],
+  templateUrl: './lib/quill.component.html',
+  styleUrls: [ './lib/quill.component.css' ],
   encapsulation: ViewEncapsulation.None
 })
 export class QuillComponent implements AfterViewInit {

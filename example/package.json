@@ -2,7 +2,7 @@
   "name": "ngx-quill-wrapper-example",
   "description": "Example app for the ngx-quill-wrapper",
   "license": "MIT",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "tslint": {
     "extends": "./tslint.json"
   },
@@ -10,14 +10,13 @@
     "extends": "./stylelint.json"
   },
   "scripts": {
-    "init": "npm install",
     "start": "webpack-dev-server --open --inline --config config/webpack-server-jit.config.js",
     "clean": "rm -rf dist node_modules",
     "lint": "npm run lint:ts && npm run lint:css",
     "build": "rm -rf dist/* && npm run build:aot",
     "deploy": "rm -rf dist && deploy-to-git",
-    "lint:ts": "tslint 'src/**/*.ts'",
-    "lint:css": "stylelint 'src/**/*.css' --syntax css",
+    "lint:ts": "tslint -p src/tsconfig.json \"src/**/*.ts\"",
+    "lint:css": "stylelint --syntax css \"src/**/*.css\"",
     "start:sjs": "lite-server -c config/lite-server-bs-config.js",
     "build:aot": "webpack --config config/webpack-build-aot.config.js",
     "build:jit": "webpack --config config/webpack-build-jit.config.js"
@@ -36,24 +35,24 @@
     }
   },
   "dependencies": {
-    "@angular/common": "^4.4.0",
-    "@angular/compiler": "^4.4.0",
-    "@angular/core": "^4.4.0",
-    "@angular/flex-layout": "2.0.0-beta.9",
-    "@angular/platform-browser": "^4.4.0",
-    "@angular/platform-browser-dynamic": "^4.4.0",
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@angular/flex-layout": "2.0.0-beta.10",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/platform-browser-dynamic": "^5.0.0",
     "core-js": "^2.5.0",
-    "ngx-quill-wrapper": "5.0.0-0",
+    "ngx-quill-wrapper": "4.0.0",
+    "quill": "^1.3.0",
     "rxjs": "^5.5.0",
     "zone.js": "^0.8.0"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "^4.4.0",
-    "@ngtools/webpack": "^1.7.0",
-    "@types/core-js": "^0.9.0",
+    "@angular/compiler-cli": "^5.0.0",
+    "@ngtools/webpack": "^1.8.0",
     "@types/node": "^8.0.0",
-    "angular2-template-loader": "^0.6.0",
-    "awesome-typescript-loader": "^3.2.0",
+    "@types/quill": "^1.3.0",
+    "codelyzer": "^4.0.0",
     "connect-history-api-fallback": "^1.4.0",
     "copy-webpack-plugin": "^4.1.0",
     "deploy-to-git": "^0.1.0",
@@ -68,7 +67,7 @@
     "stylelint-order": "^0.7.0",
     "systemjs": "^0.20.0",
     "tslint": "^5.7.0",
-    "typescript": "^2.5.0",
+    "typescript": "~2.4.0",
     "webpack": "^3.8.0",
     "webpack-dev-server": "^2.9.0"
   }
