@@ -9,3 +9,5 @@ export {
 } from './lib/quill.interfaces';
 
 export { QuillModule } from './lib/quill.module';
+
+export { QuillService } from './lib/quill.service';

@@ -1,8 +1,11 @@
 import * as Quill from 'quill';
 
-import { NgZone, SimpleChanges, KeyValueDiffer, KeyValueDiffers,
-  Directive, Optional, Inject, OnInit, DoCheck, OnDestroy, OnChanges,
-  Input, HostBinding, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Directive, Optional, Inject,
+  OnInit, DoCheck, OnDestroy, OnChanges,
+  Input, Output, EventEmitter, NgZone, ElementRef, Renderer2,
+  KeyValueDiffer, KeyValueDiffers, SimpleChanges } from '@angular/core';
+
+import { QuillService } from './quill.service';
 
 import { QUILL_CONFIG } from './quill.interfaces';
 
@@ -55,7 +58,8 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Output() contentChange = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<any>();
 
-  constructor(private zone: NgZone, private elementRef: ElementRef, private differs: KeyValueDiffers,
+  constructor(private zone: NgZone, private elementRef: ElementRef,
+    private renderer: Renderer2, private differs: KeyValueDiffers, private service: QuillService,
     @Optional() @Inject(QUILL_CONFIG) private defaults: QuillConfigInterface) {}
 
   ngOnInit() {
@@ -70,14 +74,25 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     } else {
       params.theme = params.theme || 'snow';
 
-      if (!params.modules) {
-        params.modules = { toolbar: true }; // Default modules
-      }
+      params.modules = params.modules || { toolbar: true };
 
-      if (this.autoToolbar && !this.showToolbar) {
-        params.modules.toolbar = false;
-      } else if (params.modules && params.modules.toolbar === true) {
-        params.modules.toolbar = this.defaultToolbarConfig;
+      params.modules.toolbar = params.modules.toolbar || false;
+
+      if (params.modules.toolbar) {
+        if (params.modules.toolbar !== Object(params.modules.toolbar)) {
+          params.modules.toolbar = {
+            container: (params.modules.toolbar === true) ?
+              this.defaultToolbarConfig : params.modules.toolbar
+          };
+        }
+
+        if (this.autoToolbar && !this.showToolbar) {
+          params.modules.toolbar = false;
+        } else {
+          const toolbar = params.modules.toolbar.container;
+
+          params.modules.toolbar.container = this.service.getToolbar(toolbar);
+        }
       }
     }
 
@@ -93,40 +108,40 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
     this.editorCreate.emit(this.instance);
 
-    if (this.hasFocus === true) {
-      this.instance.focus();
+    // Reset selection after onDestroy if available
 
-      this.instance.setSelection(this.selection);
+    if (this.hasFocus === true && this.selection != null) {
+      this.instance.setSelection(this.selection, 'silent');
+
+      this.instance.focus();
     }
 
+    // Add handling of text / content change events
+
     this.instance.on('text-change', (delta: any, oldDelta: any, source: string) => {
-      let html: (string | null) = this.elementRef.nativeElement.children[0].innerHTML;
-
-      const text = this.instance.getText();
-
-      if (html === '<p><br></p>') {
-          html = null;
-      }
+      const html = this.elementRef.nativeElement.children[0].innerHTML;
 
       this.contentChange.emit({
         editor: this.instance,
-        html: html,
-        text: text,
+        html: (html === '<p><br></p>') ? null : html,
+        text: this.instance.getText(),
         delta: delta,
         oldDelta: oldDelta,
         source: source
       });
     });
 
+    // Add handling of blur / focus and selection events
+
     this.instance.on('selection-change', (range: any, oldRange: any, source: string) => {
-      const showToolbar = this.showToolbar;
+      let resetToolbar = false;
 
       if (!range && this.hasFocus) {
         this.hasFocus = false;
 
         this.blur.emit(this.instance);
 
-        if (this.autoToolbar === true && this.showToolbar === true) {
+        if (this.autoToolbar && this.showToolbar) {
           this.showToolbar = false;
         }
       } else if (range && !this.hasFocus) {
@@ -134,7 +149,11 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
         this.focus.emit(this.instance);
 
-        if (this.autoToolbar === true && this.showToolbar === false) {
+        // Check if reset is needed to update toolbar
+
+        if (this.autoToolbar && !this.showToolbar) {
+          resetToolbar = true;
+
           this.showToolbar = true;
         }
       } else {
@@ -146,10 +165,12 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
         });
       }
 
-      if (showToolbar !== this.showToolbar) {
-        this.ngOnDestroy();
+      if (resetToolbar) {
+        setTimeout(() => {
+          this.ngOnDestroy();
 
-        this.ngOnInit();
+          this.ngOnInit();
+        }, 0);
       }
     });
 
@@ -174,12 +195,12 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     if (this.instance) {
-      this.selection = this.instance.getSelection();
-
       const toolbar = this.instance.getModule('toolbar');
 
-      if (toolbar && toolbar.container &&
-          Array.isArray(toolbar.options.container))
+      this.selection = this.instance.getSelection();
+
+      if (toolbar && toolbar.options && toolbar.container &&
+        !(toolbar.options.container instanceof HTMLElement))
       {
         toolbar.container.remove();
       }

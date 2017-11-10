@@ -1,5 +1,6 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter,
-  HostBinding, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component,
+  AfterViewInit, Input, Output, EventEmitter,
+  ViewChild, HostBinding, ViewEncapsulation } from '@angular/core';
 
 import { QUILL_CONFIG } from './quill.interfaces';
 
@@ -30,8 +31,6 @@ export class QuillComponent implements AfterViewInit {
   @HostBinding('class.quill')
   @Input() useQuillClass: boolean = true;
 
-  @ViewChild(QuillDirective) directiveRef: QuillDirective;
-
   @Output() blur = new EventEmitter<any>();
   @Output() focus = new EventEmitter<any>();
 
@@ -40,6 +39,8 @@ export class QuillComponent implements AfterViewInit {
   @Output() editorCreate = new EventEmitter<any>();
   @Output() contentChange = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<any>();
+
+  @ViewChild(QuillDirective) directiveRef: QuillDirective;
 
   constructor() {}
 

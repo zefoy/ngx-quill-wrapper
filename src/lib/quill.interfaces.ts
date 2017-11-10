@@ -37,9 +37,17 @@ export class QuillConfig implements QuillConfigInterface {
     this.assign(config);
   }
 
-  assign(config: QuillConfigInterface = {}) {
-    const copy = (JSON.parse(JSON.stringify(config || {})));
+  assign(config: QuillConfigInterface | any = {}, target?: any) {
+    target = target || this;
 
-    Object.assign(this, copy);
+    for (const key in config) {
+      if (config[key] && !Array.isArray(config[key]) && typeof config[key] === 'object') {
+        target[key] = {};
+
+        this.assign(config[key], target[key]);
+      } else {
+        target[key] = config[key];
+      }
+    }
   }
 }
