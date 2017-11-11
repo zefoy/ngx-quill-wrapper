@@ -14,8 +14,7 @@ See a live example application <a href="https://zefoy.github.io/ngx-quill-wrappe
 
 ```bash
 npm install
-npm run build
-npm run bundle
+npm start
 ```
 
 ### Running the example
