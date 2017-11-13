@@ -46,21 +46,25 @@ export class QuillComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.content != null) {
-      this.setContent(this.content);
+      this.setContent(this.content, true);
     }
   }
 
-  private setContent(value: string) {
-    if (!this.directiveRef || !this.directiveRef.quill()) {
-      this.content = value;
-    } else {
-      const contents = this.directiveRef.quill().clipboard.convert(value);
+  private setContent(value: string, force?: boolean) {
+    if (force || value !== this.content) {
+      if (this.directiveRef && this.directiveRef.quill()) {
+        const contents = this.directiveRef.quill().clipboard.convert(value);
 
-      this.directiveRef.quill().setContents(contents, 'silent');
+        this.directiveRef.quill().setContents(contents, 'silent');
+      }
+
+      this.content = value;
     }
   }
 
   public onContentChange(event: any) {
+    this.content = event.html;
+
     this.contentChange.emit(event);
 
     this.valueChange.emit(event.html);
