@@ -4,7 +4,7 @@ import { QuillComponent, QuillDirective, QuillConfigInterface } from 'ngx-quill-
 
 @Component({
   selector: 'my-app',
-  moduleId: module.id.toString(),
+  moduleId: 'src/app/app.component',
   templateUrl: 'app.component.html',
   styleUrls: [ 'app.component.css' ]
 })
@@ -37,7 +37,7 @@ export class AppComponent {
   }
 
   toggleType() {
-    this.type = this.type === 'component' ? 'directive' : 'component';
+    this.type = (this.type === 'component') ? 'directive' : 'component';
   }
 
   toggleTheme() {
