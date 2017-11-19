@@ -6,8 +6,6 @@ import { QuillService } from './quill.service';
 import { QuillComponent } from './quill.component';
 import { QuillDirective } from './quill.directive';
 
-import { QuillConfig, QuillConfigInterface} from './quill.interfaces';
-
 @NgModule({
   declarations: [ QuillComponent, QuillDirective ],
   imports: [ CommonModule ],
