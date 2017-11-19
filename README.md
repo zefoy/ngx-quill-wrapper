@@ -117,7 +117,7 @@ When using only the directive you need to provide your own theming or import the
 Quill directive can be used in correctly structured div element with optional custom configuration:
 
 ```html
-<div class="quill" [quill]="config" [(content)]="content">
+<div class="quill" [quill]="config" (content)="onContentChange($event)">
   <div class="quill-toolbar"><!-- Optional custom toolbar --></div>
 
   <p>Existing content for the editor</p>
