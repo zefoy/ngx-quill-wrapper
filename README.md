@@ -31,7 +31,7 @@ npm start
 ```bash
 npm link
 cd example
-npm ling ngx-quill-wrapper
+npm link ngx-quill-wrapper
 ```
 
 ### Installing and usage
