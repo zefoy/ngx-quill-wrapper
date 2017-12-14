@@ -10,6 +10,7 @@ import { QuillConfigInterface } from './quill.interfaces';
 
 @Component({
   selector: 'quill',
+  exportAs: 'ngxQuill',
   templateUrl: './lib/quill.component.html',
   styleUrls: [ './lib/quill.component.css' ],
   encapsulation: ViewEncapsulation.None

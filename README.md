@@ -6,8 +6,6 @@ This is an Angular wrapper library for the [Quill](http://quilljs.com/).
 
 To use this library you should get familiar with the [Quill documentation](http://quilljs.com/docs/configuration/) as well, this documentation only explains details specific to this wrapper.
 
-This documentation is for the latest 5.x.x version which requires Angular 5. For Angular 4 you need to use the latest 4.x.x version. Documentation for the 4.x.x can be found from <a href="https://github.com/zefoy/ngx-quill-wrapper/tree/4.x.x/">here</a>.
-
 See a live example application <a href="https://zefoy.github.io/ngx-quill-wrapper/">here</a>.
 
 ### Building the library
@@ -138,7 +136,9 @@ Quill directive can be used in correctly structured div element with optional cu
 
 ```javascript
 theme                   // Theme to use: 'snow' or 'bubble' (Default: 'snow').
+
 modules                 // Options for the quill modules (Default: {toolbar: true}).
+
 placeholder             // Placeholder text to show when no content (Default: null).
 ```
 
