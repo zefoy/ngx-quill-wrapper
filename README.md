@@ -53,7 +53,8 @@ const DEFAULT_QUILL_CONFIG: QuillConfigInterface = {
   theme: 'snow',
   modules: {
     toolbar: true
-  }
+  },
+  placeholder: 'Empty canvas'
 };
 
 @NgModule({
