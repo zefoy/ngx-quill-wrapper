@@ -2,11 +2,15 @@
 
 <a href="https://badge.fury.io/js/ngx-quill-wrapper"><img src="https://badge.fury.io/js/ngx-quill-wrapper.svg" align="right" alt="npm version" height="18"></a>
 
-This is an Angular wrapper library for the [Quill](http://quilljs.com/).
+This is an Angular wrapper library for the [Quill](http://quilljs.com/). To use this library you should get familiar with the Quill documentation as well since this documentation only explains details specific to this wrapper.
 
-To use this library you should get familiar with the [Quill documentation](http://quilljs.com/docs/configuration/) as well, this documentation only explains details specific to this wrapper.
+### Quick links
 
-See a live example application <a href="https://zefoy.github.io/ngx-quill-wrapper/">here</a>.
+[Example application](https://zefoy.github.io/ngx-quill-wrapper/)
+ | 
+[Plunker template](http://plnkr.co/edit/C9ZBLNfCXauefB39VgG0?p=preview)
+ | 
+[Quill documentation](http://quilljs.com/docs/configuration/)
 
 ### Building the library
 
@@ -142,7 +146,7 @@ modules                 // Options for the quill modules (Default: {toolbar: tru
 placeholder             // Placeholder text to show when no content (Default: null).
 ```
 
-For more detailed documentation with all the supported config options see [Quill documentation](http://quilljs.com/docs/configuration/).
+For more detailed documentation with all the supported config options see the Quill documentation.
 
 ##### Available control / helper functions (provided by the directive):
 
