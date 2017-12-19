@@ -2,13 +2,18 @@
 @import url('https://cdn.quilljs.com/1.3.3/quill.bubble.css');
 
 .quill {
-  display: flex;
+  display: block;
   width: 100%;
   height: 100%;
 
   & > .ql-toolbar {
     & > .ql-formats {
       margin-right: 12px;
+      margin-left: 0;
+    }
+
+    & + .ql-container {
+      height: calc(100% - 42px);
     }
   }
 
