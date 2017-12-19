@@ -230,4 +230,8 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   public clear(source?: string) {
     this.instance.deleteText(0, this.instance.getLength(), source);
   }
+
+  public setValue(value: string, source?: string) {
+    this.instance.setText(value, source);
+  }
 }

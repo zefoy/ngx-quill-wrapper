@@ -7,9 +7,9 @@ This is an Angular wrapper library for the [Quill](http://quilljs.com/). To use 
 ### Quick links
 
 [Example application](https://zefoy.github.io/ngx-quill-wrapper/)
- | 
+ |
 [Plunker template](http://plnkr.co/edit/C9ZBLNfCXauefB39VgG0?p=preview)
- | 
+ |
 [Quill documentation](http://quilljs.com/docs/configuration/)
 
 ### Building the library
@@ -128,23 +128,21 @@ Quill directive can be used in correctly structured div element with optional cu
 ```
 
 ```javascript
-[quill]                 // Custom config to override the global defaults.
+[quill]                      // Custom config to override the global defaults.
 
-[disabled]              // Disables all functionality of quill and modules.
+[disabled]                   // Disables all functionality of quill and modules.
 
-(editorCreate)          // Event handler for the quill editor create event.
-(contentChange)         // Event handler for the quill content change event.
-(selectionChange)       // Event handler for the quill selection change event.
+(editorCreate)               // Event handler for the quill editor create event.
+(contentChange)              // Event handler for the quill content change event.
+(selectionChange)            // Event handler for the quill selection change event.
 ```
 
 ##### Available configuration options (custom / global configuration):
 
 ```javascript
-theme                   // Theme to use: 'snow' or 'bubble' (Default: 'snow').
-
-modules                 // Options for the quill modules (Default: {toolbar: true}).
-
-placeholder             // Placeholder text to show when no content (Default: null).
+theme                        // Theme to use: 'snow' or 'bubble' (Default: 'snow').
+modules                      // Options for the quill modules (Default: {toolbar: true}).
+placeholder                  // Placeholder text to show when no content (Default: null).
 ```
 
 For more detailed documentation with all the supported config options see the Quill documentation.
@@ -152,9 +150,11 @@ For more detailed documentation with all the supported config options see the Qu
 ##### Available control / helper functions (provided by the directive):
 
 ```javascript
-quill()                 // Returns the Quill instance reference for full API access.
+quill()                      // Returns the Quill instance reference for full API access.
 
-clear(source?)          // Clear the editor content (source: 'api', 'user', 'silent').
+clear(source?)               // Clear the editor content (source: 'api', 'user', 'silent').
+
+setValue(value, source?)     // Updates the editor content (source: 'api', 'user', 'silent').
 ```
 
 Above functions can be accessed through the directive reference (available as directiveRef in the component).
