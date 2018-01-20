@@ -44,6 +44,8 @@ npm install ngx-quill-wrapper --save
 
 ##### Load the module for your app (with global configuration):
 
+Providing the global configuration is optional and when used you should only provide the configuration in your root module.
+
 ```javascript
 import { QuillModule } from 'ngx-quill-wrapper';
 import { QUILL_CONFIG } from 'ngx-quill-wrapper';
