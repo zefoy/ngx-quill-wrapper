@@ -37,7 +37,7 @@ export class QuillConfig implements QuillConfigInterface {
     this.assign(config);
   }
 
-  assign(config: SwiperConfigInterface | any = {}, target?: any) {
+  assign(config: QuillConfigInterface | any = {}, target?: any) {
     target = target || this;
 
     for (const key in config) {
