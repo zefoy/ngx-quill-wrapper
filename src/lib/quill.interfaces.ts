@@ -37,11 +37,13 @@ export class QuillConfig implements QuillConfigInterface {
     this.assign(config);
   }
 
-  assign(config: QuillConfigInterface | any = {}, target?: any) {
+  assign(config: SwiperConfigInterface | any = {}, target?: any) {
     target = target || this;
 
     for (const key in config) {
-      if (config[key] && !Array.isArray(config[key]) && typeof config[key] === 'object') {
+      if (config[key] != null && !Array.isArray(config[key]) && typeof config[key] === 'object' &&
+         (typeof HTMLElement === 'undefined' || !(config[key] instanceof HTMLElement)))
+      {
         target[key] = {};
 
         this.assign(config[key], target[key]);
