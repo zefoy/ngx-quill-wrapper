@@ -13,7 +13,7 @@ export class QuillService {
       toolbar = document.querySelector(toolbarConfig);
     }
 
-    if (toolbar instanceof HTMLElement) {
+    if (typeof HTMLElement !== 'undefined' && toolbar instanceof HTMLElement) {
       if (!this.toolbar) {
         this.toolbar = toolbar;
       }

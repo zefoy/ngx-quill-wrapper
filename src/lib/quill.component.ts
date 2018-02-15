@@ -26,6 +26,7 @@ export class QuillComponent implements AfterViewInit {
   @Input() disabled: boolean = false;
 
   @Input() autoToolbar: boolean = false;
+  @Input() realToolbar: boolean = false;
 
   @Input() config: QuillConfigInterface;
 

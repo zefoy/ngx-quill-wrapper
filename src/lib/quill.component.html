@@ -1,4 +1,4 @@
-<div [quill]="config" [disabled]="disabled" [autoToolbar]="autoToolbar" (blur)="blur.emit($event)" (focus)="focus.emit($event)" (editorCreate)="editorCreate.emit($event)" (contentChange)="onContentChange($event)" (selectionChange)="selectionChange.emit($event)">
+<div [quill]="config" [disabled]="disabled" [autoToolbar]="autoToolbar" [realToolbar]="realToolbar" (blur)="blur.emit($event)" (focus)="focus.emit($event)" (editorCreate)="editorCreate.emit($event)" (contentChange)="onContentChange($event)" (selectionChange)="selectionChange.emit($event)">
   <ng-content select="[quillToolbar]"></ng-content>
 
   <ng-content select="[quillContent]"></ng-content>

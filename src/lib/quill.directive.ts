@@ -48,6 +48,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() disabled: boolean = false;
 
   @Input() autoToolbar: boolean = false;
+  @Input() realToolbar: boolean = false;
 
   @Input('quill') config: QuillConfigInterface;
 
@@ -79,7 +80,9 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
       params.modules.toolbar = params.modules.toolbar || false;
 
       if (params.modules.toolbar) {
-        if (params.modules.toolbar !== Object(params.modules.toolbar)) {
+        if (typeof params.modules.toolbar !== 'object' ||
+           params.modules.toolbar.container === undefined)
+        {
           params.modules.toolbar = {
             container: (params.modules.toolbar === true) ?
               this.defaultToolbarConfig : params.modules.toolbar
@@ -88,7 +91,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
         if (this.autoToolbar && !this.showToolbar) {
           params.modules.toolbar = false;
-        } else {
+        } else if (this.autoToolbar || !this.realToolbar) {
           const toolbar = params.modules.toolbar.container;
 
           params.modules.toolbar.container = this.service.getToolbar(toolbar);
@@ -181,6 +184,25 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
+  ngOnDestroy() {
+    if (this.instance) {
+      const toolbar = this.instance.getModule('toolbar');
+
+      this.selection = this.instance.getSelection();
+
+      if (typeof HTMLElement !== 'undefined' &&
+          toolbar && toolbar.options && toolbar.container &&
+        !(toolbar.options.container instanceof HTMLElement))
+      {
+        toolbar.container.remove();
+      }
+
+      delete this.instance;
+
+      this.instance = null;
+    }
+  }
+
   ngDoCheck() {
     if (this.configDiff) {
       const changes = this.configDiff.diff(this.config || {});
@@ -190,24 +212,6 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
         this.ngOnInit();
       }
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.instance) {
-      const toolbar = this.instance.getModule('toolbar');
-
-      this.selection = this.instance.getSelection();
-
-      if (toolbar && toolbar.options && toolbar.container &&
-        !(toolbar.options.container instanceof HTMLElement))
-      {
-        toolbar.container.remove();
-      }
-
-      delete this.instance;
-
-      this.instance = null;
     }
   }
 
