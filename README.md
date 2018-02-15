@@ -102,6 +102,8 @@ Simply replace the element that would ordinarily be passed to `Quill` with the q
 [autoToolbar]           // Only show toolbar when the editor is focused.
                         // Allows using same toolbar for multiple editors.
 
+[realToolbar]           // Use toolbar as it is without cloning the node.
+
 [useQuillClass]         // Use quill class (use provided default styles).
 
 (valueChange)           // Event handler for the input value change event.
