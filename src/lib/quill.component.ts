@@ -2,8 +2,6 @@ import { Component,
   AfterViewInit, Input, Output, EventEmitter,
   ViewChild, HostBinding, ViewEncapsulation } from '@angular/core';
 
-import { QUILL_CONFIG } from './quill.interfaces';
-
 import { QuillDirective } from './quill.directive';
 
 import { QuillConfigInterface } from './quill.interfaces';

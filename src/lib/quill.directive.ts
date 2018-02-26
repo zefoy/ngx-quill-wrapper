@@ -2,7 +2,7 @@ import * as Quill from 'quill';
 
 import { Directive, Optional, Inject,
   OnInit, DoCheck, OnDestroy, OnChanges,
-  Input, Output, EventEmitter, NgZone, ElementRef, Renderer2,
+  Input, Output, EventEmitter, NgZone, ElementRef,
   KeyValueDiffer, KeyValueDiffers, SimpleChanges } from '@angular/core';
 
 import { QuillService } from './quill.service';
@@ -60,7 +60,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Output() selectionChange = new EventEmitter<any>();
 
   constructor(private zone: NgZone, private elementRef: ElementRef,
-    private renderer: Renderer2, private differs: KeyValueDiffers, private service: QuillService,
+    private differs: KeyValueDiffers, private service: QuillService,
     @Optional() @Inject(QUILL_CONFIG) private defaults: QuillConfigInterface) {}
 
   ngOnInit() {

@@ -8,7 +8,7 @@ This is an Angular wrapper library for the [Quill](http://quilljs.com/). To use 
 
 [Example application](https://zefoy.github.io/ngx-quill-wrapper/)
  |
-[Plunker template](http://plnkr.co/edit/C9ZBLNfCXauefB39VgG0?p=preview)
+[StackBlitz example](https://stackblitz.com/github/zefoy/ngx-quill-wrapper/tree/master/example)
  |
 [Quill documentation](http://quilljs.com/docs/configuration/)
 
