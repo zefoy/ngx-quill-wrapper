@@ -100,7 +100,9 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
 
     this.zone.runOutsideAngular(() => {
-      this.instance = new Quill(this.elementRef.nativeElement, params);
+      const Q = (typeof window !== 'undefined') ? window['Quill'] || Quill : Quill;
+
+      this.instance = new Q(this.elementRef.nativeElement, params);
 
       if (!params.readOnly) {
         this.instance.enable();
