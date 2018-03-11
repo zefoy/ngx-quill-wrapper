@@ -5,7 +5,7 @@ export const QUILL_CONFIG = new InjectionToken<QuillConfigInterface>('QUILL_CONF
 export interface QuillConfigInterface {
   theme?: string,
 
-  debug?: boolean,
+  debug?: string,
   strict?: boolean,
 
   formats?: string[],
@@ -18,10 +18,14 @@ export interface QuillConfigInterface {
   scrollingContainer?: string | HTMLElement
 }
 
+export interface QuillModulesInterface {
+  [path: string]: any
+}
+
 export class QuillConfig implements QuillConfigInterface {
   theme: string;
 
-  debug: boolean;
+  debug: string;
   strict: boolean;
 
   formats: string[];

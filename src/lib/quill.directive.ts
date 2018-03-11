@@ -1,4 +1,8 @@
-import * as Quill from 'quill';
+import Quill from 'quill';
+
+import { Quill as QuillInstance } from 'quill';
+import { Sources as QuillSources } from 'quill';
+import { RangeStatic as QuillRangeStatic } from 'quill';
 
 import { Directive, Optional, Inject,
   OnInit, DoCheck, OnDestroy, OnChanges,
@@ -9,16 +13,16 @@ import { QuillService } from './quill.service';
 
 import { QUILL_CONFIG } from './quill.interfaces';
 
-import { QuillConfig, QuillConfigInterface } from './quill.interfaces';
+import { QuillConfig, QuillConfigInterface, QuillModulesInterface } from './quill.interfaces';
 
 @Directive({
   selector: '[quill]',
   exportAs: 'ngxQuill'
 })
 export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
-  private instance: any = null;
+  private instance: QuillInstance = null;
 
-  private selection: any = null;
+  private selection: QuillRangeStatic = null;
 
   private hasFocus: boolean = false;
   private showToolbar: boolean = false;
@@ -51,6 +55,8 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() realToolbar: boolean = false;
 
   @Input('quill') config: QuillConfigInterface;
+
+  @Input('modules') modules: QuillModulesInterface;
 
   @Output() blur = new EventEmitter<any>();
   @Output() focus = new EventEmitter<any>();
@@ -100,9 +106,13 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
 
     this.zone.runOutsideAngular(() => {
-      const Q = (typeof window !== 'undefined') ? window['Quill'] || Quill : Quill;
+      if (this.modules) {
+        Object.keys(this.modules).forEach((path: string) => {
+          Quill.register(path, this.modules[path]);
+        });
+      }
 
-      this.instance = new Q(this.elementRef.nativeElement, params);
+      this.instance = new Quill(this.elementRef.nativeElement, params);
 
       if (!params.readOnly) {
         this.instance.enable();
@@ -233,11 +243,15 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     return this.instance;
   }
 
-  public clear(source?: string) {
+  public clear(source?: QuillSources) {
     this.instance.deleteText(0, this.instance.getLength(), source);
   }
 
-  public setValue(value: string, source?: string) {
-    this.instance.setText(value, source);
+  public setValue(value: string, source?: QuillSources) {
+    this.clear(source);
+
+    this.instance.clipboard.dangerouslyPasteHTML(value, source);
+
+    this.instance.setSelection(this.instance.getLength(), 1);
   }
 }

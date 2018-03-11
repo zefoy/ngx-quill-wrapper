@@ -1,6 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+declare var Focus: any;
 
-import { QuillComponent, QuillDirective, QuillConfigInterface } from 'ngx-quill-wrapper';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
+
+import { QuillComponent, QuillDirective,
+  QuillConfigInterface, QuillModulesInterface } from 'ngx-quill-wrapper';
 
 @Component({
   selector: 'my-app',
@@ -8,7 +11,7 @@ import { QuillComponent, QuillDirective, QuillConfigInterface } from 'ngx-quill-
   templateUrl: 'app.component.html',
   styleUrls: [ 'app.component.css' ]
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   public show: boolean = true;
 
   public type: string = 'component';
@@ -19,6 +22,8 @@ export class AppComponent {
     theme: 'snow',
     readOnly: false
   };
+
+  public modules: QuillModulesInterface = {};
 
   private toolbar: any = [
     [{ 'size': ['small', false, 'large'] }],
@@ -33,7 +38,16 @@ export class AppComponent {
   @ViewChild(QuillDirective) directiveRef: QuillDirective;
 
   constructor() {
-    this.config.modules = { toolbar: this.toolbar };
+    this.modules = { 'modules/focus': Focus };
+
+    this.config.modules = { toolbar: this.toolbar, focus: { focusClass: 'focused' } };
+  }
+
+  ngAfterViewInit() {
+    // To get the Quill instance:
+
+    // this.directiveRef.quill();
+    // this.componentRef.directiveRef.quill();
   }
 
   toggleType() {

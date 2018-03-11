@@ -1,1 +1,1 @@
-# Example app for the ngx-swiper-wrapper
+# Example app for the ngx-quill-wrapper

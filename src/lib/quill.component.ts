@@ -4,7 +4,7 @@ import { Component,
 
 import { QuillDirective } from './quill.directive';
 
-import { QuillConfigInterface } from './quill.interfaces';
+import { QuillConfigInterface, QuillModulesInterface } from './quill.interfaces';
 
 @Component({
   selector: 'quill',
@@ -27,6 +27,8 @@ export class QuillComponent implements AfterViewInit {
   @Input() realToolbar: boolean = false;
 
   @Input() config: QuillConfigInterface;
+
+  @Input() modules: QuillModulesInterface;
 
   @HostBinding('class.quill')
   @Input() useQuillClass: boolean = true;
@@ -53,9 +55,7 @@ export class QuillComponent implements AfterViewInit {
   private setContent(value: string, force?: boolean) {
     if (force || value !== this.content) {
       if (this.directiveRef && this.directiveRef.quill()) {
-        const contents = this.directiveRef.quill().clipboard.convert(value);
-
-        this.directiveRef.quill().setContents(contents, 'silent');
+        this.directiveRef.setValue(value, 'silent');
       }
 
       this.content = value;

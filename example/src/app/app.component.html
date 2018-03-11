@@ -28,10 +28,10 @@
       <div class="box-title">Quill</div>
 
       <div class="content-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="auto">
-        <quill *ngIf="type == 'component' && show" fxFlex="auto" [config]="config" [value]="'Some <b>example</b> content'" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (valueChange)="onValueChange($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
+        <quill *ngIf="type == 'component' && show" fxFlex="auto" [config]="config" [value]="'Some <b>example</b> content'" [modules]="modules" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (valueChange)="onValueChange($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
         </quill>
 
-        <div *ngIf="type == 'directive' && show" class="quill-editor" fxLayout="column" fxFlex="auto" [quill]="config" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
+        <div *ngIf="type == 'directive' && show" class="quill-editor" fxLayout="column" fxFlex="auto" [quill]="config" [modules]="modules" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
           Some <b>example</b> content
         </div>
       </div>

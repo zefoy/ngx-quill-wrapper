@@ -5,7 +5,8 @@ export {
   QUILL_CONFIG,
 
   QuillConfig,
-  QuillConfigInterface
+  QuillConfigInterface,
+  QuillModulesInterface
 } from './lib/quill.interfaces';
 
 export { QuillModule } from './lib/quill.module';

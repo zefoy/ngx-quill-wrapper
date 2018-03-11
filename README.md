@@ -95,9 +95,12 @@ Simply replace the element that would ordinarily be passed to `Quill` with the q
 ```javascript
 [config]                // Custom config to override the global defaults.
 
-[value]                 // Input value of the quill editor content (html).
+[modules]               // Extra custom modules to register for the Quill.
+                        // Formatting example: { 'modules/focus': Focus }
 
-[disabled]              // Disables all functionality of quill and modules.
+[value]                 // Input value of the Quill editor content (html).
+
+[disabled]              // Disables all functionality of Quill and modules.
 
 [autoToolbar]           // Only show toolbar when the editor is focused.
                         // Allows using same toolbar for multiple editors.
@@ -108,9 +111,9 @@ Simply replace the element that would ordinarily be passed to `Quill` with the q
 
 (valueChange)           // Event handler for the input value change event.
 
-(editorCreate)          // Event handler for the quill editor create event.
-(contentChange)         // Event handler for the quill content change event.
-(selectionChange)       // Event handler for the quill selection change event.
+(editorCreate)          // Event handler for the Quill editor create event.
+(contentChange)         // Event handler for the Quill content change event.
+(selectionChange)       // Event handler for the Quill selection change event.
 ```
 
 **DIRECTIVE USAGE**
@@ -134,18 +137,21 @@ Quill directive can be used in correctly structured div element with optional cu
 ```javascript
 [quill]                      // Custom config to override the global defaults.
 
-[disabled]                   // Disables all functionality of quill and modules.
+[modules]                    // Extra custom modules to register for the Quill.
+                             // Formatting example: { 'modules/focus': Focus }
 
-(editorCreate)               // Event handler for the quill editor create event.
-(contentChange)              // Event handler for the quill content change event.
-(selectionChange)            // Event handler for the quill selection change event.
+[disabled]                   // Disables all functionality of Quill and modules.
+
+(editorCreate)               // Event handler for the Quill editor create event.
+(contentChange)              // Event handler for the Quill content change event.
+(selectionChange)            // Event handler for the Quill selection change event.
 ```
 
 ##### Available configuration options (custom / global configuration):
 
 ```javascript
 theme                        // Theme to use: 'snow' or 'bubble' (Default: 'snow').
-modules                      // Options for the quill modules (Default: {toolbar: true}).
+modules                      // Options for the Quill modules (Default: {toolbar: true}).
 placeholder                  // Placeholder text to show when no content (Default: null).
 ```
 
