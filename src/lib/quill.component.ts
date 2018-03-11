@@ -46,13 +46,13 @@ export class QuillComponent implements AfterViewInit {
 
   constructor() {}
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     if (this.content != null) {
       this.setContent(this.content, true);
     }
   }
 
-  private setContent(value: string, force?: boolean) {
+  private setContent(value: string, force?: boolean): void {
     if (force || value !== this.content) {
       if (this.directiveRef && this.directiveRef.quill()) {
         this.directiveRef.setValue(value, 'silent');
@@ -62,7 +62,7 @@ export class QuillComponent implements AfterViewInit {
     }
   }
 
-  public onContentChange(event: any) {
+  public onContentChange(event: any): void {
     this.content = event.html;
 
     this.contentChange.emit(event);

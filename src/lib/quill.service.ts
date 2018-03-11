@@ -6,7 +6,7 @@ export class QuillService {
 
   constructor() {}
 
-  public getToolbar(toolbarConfig: any) {
+  public getToolbar(toolbarConfig: any): any {
     let toolbar = toolbarConfig;
 
     if (typeof toolbarConfig === 'string') {

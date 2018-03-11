@@ -43,35 +43,35 @@ export class AppComponent implements AfterViewInit {
     this.config.modules = { toolbar: this.toolbar, focus: { focusClass: 'focused' } };
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     // To get the Quill instance:
 
     // this.directiveRef.quill();
     // this.componentRef.directiveRef.quill();
   }
 
-  toggleType() {
+  public toggleType(): void {
     this.type = (this.type === 'component') ? 'directive' : 'component';
   }
 
-  toggleTheme() {
+  public toggleTheme(): void {
     this.config.theme = (this.config.theme === 'snow') ? 'bubble' : 'snow';
   }
 
-  toggleToolbar() {
+  public toggleToolbar(): void {
     this.config.modules = (this.config.modules.toolbar) ?
       { toolbar: false } : { toolbar: this.toolbar };
   }
 
-  toggleDisabled() {
+  public toggleDisabled(): void {
     this.disabled = !this.disabled;
   }
 
-  toggleReadonly() {
+  public toggleReadonly(): void {
     this.config.readOnly = (this.config.readOnly === true) ? false : true;
   }
 
-  clearEditorContent() {
+  public clearEditorContent(): void {
     if (this.type === 'directive') {
       this.directiveRef.clear();
     } else if (this.type === 'component') {
@@ -79,27 +79,27 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  onEditorBlur(event: any) {
+  public onEditorBlur(event: any): void {
     console.log('Editor blur:', event);
   }
 
-  onEditorFocus(event: any) {
+  public onEditorFocus(event: any): void {
     console.log('Editor focus:', event);
   }
 
-  onEditorCreate(event: any) {
+  public onEditorCreate(event: any): void {
     console.log('Editor create:', event);
   }
 
-  onValueChange(value: string) {
+  public onValueChange(value: string): void {
     console.log('Value change:', value);
   }
 
-  onContentChange(event: any) {
+  public onContentChange(event: any): void {
     console.log('Content change:', event);
   }
 
-  onSelectionChange(event: any) {
+  public onSelectionChange(event: any): void {
     console.log('Selection change:', event);
   }
 }

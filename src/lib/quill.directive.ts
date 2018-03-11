@@ -69,7 +69,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     private differs: KeyValueDiffers, private service: QuillService,
     @Optional() @Inject(QUILL_CONFIG) private defaults: QuillConfigInterface) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const params = new QuillConfig(this.defaults);
 
     params.assign(this.config); // Custom configuration
@@ -196,7 +196,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.instance) {
       const toolbar = this.instance.getModule('toolbar');
 
@@ -215,7 +215,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
-  ngDoCheck() {
+  ngDoCheck(): void {
     if (this.configDiff) {
       const changes = this.configDiff.diff(this.config || {});
 
@@ -227,7 +227,7 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.instance && changes['disabled']) {
       if (changes['disabled'].currentValue !== changes['disabled'].previousValue) {
         this.zone.runOutsideAngular(() => {
@@ -239,15 +239,15 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
-  public quill() {
+  public quill(): QuillInstance {
     return this.instance;
   }
 
-  public clear(source?: QuillSources) {
+  public clear(source?: QuillSources): void {
     this.instance.deleteText(0, this.instance.getLength(), source);
   }
 
-  public setValue(value: string, source?: QuillSources) {
+  public setValue(value: string, source?: QuillSources): void {
     this.clear(source);
 
     this.instance.clipboard.dangerouslyPasteHTML(value, source);
