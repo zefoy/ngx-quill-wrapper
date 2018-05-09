@@ -119,9 +119,11 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
       } else {
         this.instance.disable();
       }
-    });
 
-    this.editorCreate.emit(this.instance);
+      if (this.editorCreate.observers.length) {
+        this.editorCreate.emit(this.instance);
+      }
+    });
 
     // Reset selection after onDestroy if available
 
@@ -136,13 +138,17 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     this.instance.on('text-change', (delta: any, oldDelta: any, source: string) => {
       const html = this.elementRef.nativeElement.children[0].innerHTML;
 
-      this.contentChange.emit({
-        editor: this.instance,
-        html: (html === '<p><br></p>') ? null : html,
-        text: this.instance.getText(),
-        delta: delta,
-        oldDelta: oldDelta,
-        source: source
+      this.zone.runOutsideAngular(() => {
+        if (this.contentChange.observers.length) {
+          this.contentChange.emit({
+            editor: this.instance,
+            html: (html === '<p><br></p>') ? null : html,
+            text: this.instance.getText(),
+            delta: delta,
+            oldDelta: oldDelta,
+            source: source
+          });
+        }
       });
     });
 
@@ -172,11 +178,15 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
           this.showToolbar = true;
         }
       } else {
-        this.selectionChange.emit({
-          editor: this.instance,
-          range: range,
-          oldRange: oldRange,
-          source: source
+        this.zone.runOutsideAngular(() => {
+          if (this.selectionChange.observers.length) {
+            this.selectionChange.emit({
+              editor: this.instance,
+              range: range,
+              oldRange: oldRange,
+              source: source
+            });
+          }
         });
       }
 
