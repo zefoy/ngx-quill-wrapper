@@ -262,6 +262,12 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
+  public getValue(): string | undefined {
+    if (this.instance) {
+      return this.instance.getText();
+    }
+  }
+
   public setValue(value: string, source?: QuillSources): void {
     if (this.instance) {
       this.clear(source);

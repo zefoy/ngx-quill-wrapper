@@ -164,6 +164,8 @@ quill()                      // Returns the Quill instance reference for full AP
 
 clear(source?)               // Clear the editor content (source: 'api', 'user', 'silent').
 
+getValue()                   // Returns the current text content of the editor document.
+
 setValue(value, source?)     // Updates the editor content (source: 'api', 'user', 'silent').
 ```
 
