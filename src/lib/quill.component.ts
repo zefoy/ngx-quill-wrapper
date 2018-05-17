@@ -14,7 +14,7 @@ import { QuillConfigInterface, QuillModulesInterface } from './quill.interfaces'
   encapsulation: ViewEncapsulation.None
 })
 export class QuillComponent implements AfterViewInit {
-  private content: string = null;
+  private content: string | null = null;
 
   @Input()
   set value(value: string) {
@@ -26,9 +26,9 @@ export class QuillComponent implements AfterViewInit {
   @Input() autoToolbar: boolean = false;
   @Input() realToolbar: boolean = false;
 
-  @Input() config: QuillConfigInterface;
+  @Input() config?: QuillConfigInterface;
 
-  @Input() modules: QuillModulesInterface;
+  @Input() modules?: QuillModulesInterface;
 
   @HostBinding('class.quill')
   @Input() useQuillClass: boolean = true;
@@ -42,7 +42,7 @@ export class QuillComponent implements AfterViewInit {
   @Output() contentChange = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<any>();
 
-  @ViewChild(QuillDirective) directiveRef: QuillDirective;
+  @ViewChild(QuillDirective) directiveRef: QuillDirective | undefined;
 
   constructor() {}
 
@@ -54,7 +54,7 @@ export class QuillComponent implements AfterViewInit {
 
   private setContent(value: string, force?: boolean): void {
     if (force || value !== this.content) {
-      if (this.directiveRef && this.directiveRef.quill()) {
+      if (this.directiveRef) {
         this.directiveRef.setValue(value, 'silent');
       }
 

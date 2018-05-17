@@ -23,19 +23,19 @@ export interface QuillModulesInterface {
 }
 
 export class QuillConfig implements QuillConfigInterface {
-  theme: string;
+  theme?: string;
 
-  debug: string;
-  strict: boolean;
+  debug?: string;
+  strict?: boolean;
 
-  formats: string[];
-  modules: any;
+  formats?: string[];
+  modules?: any;
 
-  readOnly: boolean;
-  placeholder: string;
+  readOnly?: boolean;
+  placeholder?: string;
 
-  bounds: string | HTMLElement;
-  scrollingContainer: string | HTMLElement;
+  bounds?: string | HTMLElement;
+  scrollingContainer?: string | HTMLElement;
 
   constructor(config: QuillConfigInterface = {}) {
     this.assign(config);

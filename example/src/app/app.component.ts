@@ -34,8 +34,8 @@ export class AppComponent implements AfterViewInit {
     [{ 'align': [] }, { 'list': 'bullet' }]
   ];
 
-  @ViewChild(QuillComponent) componentRef: QuillComponent;
-  @ViewChild(QuillDirective) directiveRef: QuillDirective;
+  @ViewChild(QuillComponent) componentRef: QuillComponent | undefined;
+  @ViewChild(QuillDirective) directiveRef: QuillDirective | undefined;
 
   constructor() {
     this.modules = { 'modules/focus': Focus };
@@ -72,9 +72,9 @@ export class AppComponent implements AfterViewInit {
   }
 
   public clearEditorContent(): void {
-    if (this.type === 'directive') {
+    if (this.type === 'directive' && this.directiveRef) {
       this.directiveRef.clear();
-    } else if (this.type === 'component') {
+    } else if (this.type === 'component' && this.componentRef && this.componentRef.directiveRef) {
       this.componentRef.directiveRef.clear();
     }
   }

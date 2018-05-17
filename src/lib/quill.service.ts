@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class QuillService {
-  private toolbar: HTMLElement = null;
+  private toolbar: HTMLElement | null = null;
 
   constructor() {}
 
@@ -20,7 +20,9 @@ export class QuillService {
 
       const clone = this.toolbar.cloneNode(true);
 
-      toolbar.parentNode.replaceChild(clone, toolbar);
+      if (toolbar.parentNode) {
+        toolbar.parentNode.replaceChild(clone, toolbar);
+      }
 
       return clone;
     }

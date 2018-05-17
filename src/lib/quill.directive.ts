@@ -11,23 +11,22 @@ import { Directive, Optional, Inject,
 
 import { QuillService } from './quill.service';
 
-import { QUILL_CONFIG } from './quill.interfaces';
-
-import { QuillConfig, QuillConfigInterface, QuillModulesInterface } from './quill.interfaces';
+import { QUILL_CONFIG, QuillConfig, QuillConfigInterface,
+  QuillModulesInterface } from './quill.interfaces';
 
 @Directive({
   selector: '[quill]',
   exportAs: 'ngxQuill'
 })
 export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
-  private instance: QuillInstance = null;
+  private instance: QuillInstance | null = null;
 
-  private selection: QuillRangeStatic = null;
+  private selection: QuillRangeStatic | null = null;
 
   private hasFocus: boolean = false;
   private showToolbar: boolean = false;
 
-  private configDiff: KeyValueDiffer<string, any>;
+  private configDiff: KeyValueDiffer<string, any> | null = null;
 
   private defaultToolbarConfig: any = [
     ['bold', 'italic', 'underline', 'strike'],
@@ -54,9 +53,9 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
   @Input() autoToolbar: boolean = false;
   @Input() realToolbar: boolean = false;
 
-  @Input('quill') config: QuillConfigInterface;
+  @Input('quill') config?: QuillConfigInterface;
 
-  @Input('modules') modules: QuillModulesInterface;
+  @Input('modules') modules?: QuillModulesInterface;
 
   @Output() blur = new EventEmitter<any>();
   @Output() focus = new EventEmitter<any>();
@@ -108,7 +107,9 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     this.zone.runOutsideAngular(() => {
       if (this.modules) {
         Object.keys(this.modules).forEach((path: string) => {
-          Quill.register(path, this.modules[path]);
+          if (this.modules && this.modules[path]) {
+            Quill.register(path, this.modules[path]);
+          }
         });
       }
 
@@ -127,77 +128,79 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
 
     // Reset selection after onDestroy if available
 
-    if (this.hasFocus === true && this.selection != null) {
+    if (this.instance && this.selection && this.hasFocus === true) {
       this.instance.setSelection(this.selection, 'silent');
 
       this.instance.focus();
     }
 
-    // Add handling of text / content change events
+    if (this.instance) {
+      // Add handling of text / content change events
 
-    this.instance.on('text-change', (delta: any, oldDelta: any, source: string) => {
-      const html = this.elementRef.nativeElement.children[0].innerHTML;
+      this.instance.on('text-change', (delta: any, oldDelta: any, source: string) => {
+        const html = this.elementRef.nativeElement.children[0].innerHTML;
 
-      this.zone.runOutsideAngular(() => {
-        if (this.contentChange.observers.length) {
-          this.contentChange.emit({
-            editor: this.instance,
-            html: (html === '<p><br></p>') ? null : html,
-            text: this.instance.getText(),
-            delta: delta,
-            oldDelta: oldDelta,
-            source: source
-          });
-        }
-      });
-    });
-
-    // Add handling of blur / focus and selection events
-
-    this.instance.on('selection-change', (range: any, oldRange: any, source: string) => {
-      let resetToolbar = false;
-
-      if (!range && this.hasFocus) {
-        this.hasFocus = false;
-
-        this.blur.emit(this.instance);
-
-        if (this.autoToolbar && this.showToolbar) {
-          this.showToolbar = false;
-        }
-      } else if (range && !this.hasFocus) {
-        this.hasFocus = true;
-
-        this.focus.emit(this.instance);
-
-        // Check if reset is needed to update toolbar
-
-        if (this.autoToolbar && !this.showToolbar) {
-          resetToolbar = true;
-
-          this.showToolbar = true;
-        }
-      } else {
         this.zone.runOutsideAngular(() => {
-          if (this.selectionChange.observers.length) {
-            this.selectionChange.emit({
+          if (this.instance && this.contentChange.observers.length) {
+            this.contentChange.emit({
               editor: this.instance,
-              range: range,
-              oldRange: oldRange,
+              html: (html === '<p><br></p>') ? null : html,
+              text: this.instance.getText(),
+              delta: delta,
+              oldDelta: oldDelta,
               source: source
             });
           }
         });
-      }
+      });
 
-      if (resetToolbar) {
-        setTimeout(() => {
-          this.ngOnDestroy();
+      // Add handling of blur / focus and selection events
 
-          this.ngOnInit();
-        }, 0);
-      }
-    });
+      this.instance.on('selection-change', (range: any, oldRange: any, source: string) => {
+        let resetToolbar = false;
+
+        if (!range && this.hasFocus) {
+          this.hasFocus = false;
+
+          this.blur.emit(this.instance);
+
+          if (this.autoToolbar && this.showToolbar) {
+            this.showToolbar = false;
+          }
+        } else if (range && !this.hasFocus) {
+          this.hasFocus = true;
+
+          this.focus.emit(this.instance);
+
+          // Check if reset is needed to update toolbar
+
+          if (this.autoToolbar && !this.showToolbar) {
+            resetToolbar = true;
+
+            this.showToolbar = true;
+          }
+        } else {
+          this.zone.runOutsideAngular(() => {
+            if (this.instance && this.selectionChange.observers.length) {
+              this.selectionChange.emit({
+                editor: this.instance,
+                range: range,
+                oldRange: oldRange,
+                source: source
+              });
+            }
+          });
+        }
+
+        if (resetToolbar) {
+          setTimeout(() => {
+            this.ngOnDestroy();
+
+            this.ngOnInit();
+          }, 0);
+        }
+      });
+    }
 
     if (!this.configDiff) {
       this.configDiff = this.differs.find(this.config || {}).create();
@@ -249,19 +252,23 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
     }
   }
 
-  public quill(): QuillInstance {
+  public quill(): QuillInstance | null {
     return this.instance;
   }
 
   public clear(source?: QuillSources): void {
-    this.instance.deleteText(0, this.instance.getLength(), source);
+    if (this.instance) {
+      this.instance.deleteText(0, this.instance.getLength(), source);
+    }
   }
 
   public setValue(value: string, source?: QuillSources): void {
-    this.clear(source);
+    if (this.instance) {
+      this.clear(source);
 
-    this.instance.clipboard.dangerouslyPasteHTML(value, source);
+      this.instance.clipboard.dangerouslyPasteHTML(value, source);
 
-    this.instance.setSelection(this.instance.getLength(), 1);
+      this.instance.setSelection(this.instance.getLength(), 1);
+    }
   }
 }
