@@ -42,7 +42,7 @@ export class QuillComponent implements AfterViewInit {
   @Output() contentChange = new EventEmitter<any>();
   @Output() selectionChange = new EventEmitter<any>();
 
-  @ViewChild(QuillDirective) directiveRef: QuillDirective | undefined;
+  @ViewChild(QuillDirective) directiveRef?: QuillDirective;
 
   constructor() {}
 

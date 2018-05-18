@@ -34,8 +34,8 @@ export class AppComponent implements AfterViewInit {
     [{ 'align': [] }, { 'list': 'bullet' }]
   ];
 
-  @ViewChild(QuillComponent) componentRef: QuillComponent | undefined;
-  @ViewChild(QuillDirective) directiveRef: QuillDirective | undefined;
+  @ViewChild(QuillComponent) componentRef?: QuillComponent;
+  @ViewChild(QuillDirective) directiveRef?: QuillDirective;
 
   constructor() {
     this.modules = { 'modules/focus': Focus };
