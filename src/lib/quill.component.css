@@ -1,0 +1,42 @@
+@import url('https://cdn.quilljs.com/1.3.5/quill.snow.css');
+@import url('https://cdn.quilljs.com/1.3.5/quill.bubble.css');
+
+.quill {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.quill > .ql-toolbar > .ql-formats {
+  margin-right: 12px;
+  margin-left: 0;
+}
+
+.quill > .ql-toolbar + .ql-container {
+  height: calc(100% - 42px);
+}
+
+.quill[fxflex] {
+  display: flex;
+  flex-direction: inherit;
+  align-items: inherit;
+  min-width: 0;
+  min-height: 0;
+
+  -webkit-box-direction: inherit;
+  -webkit-box-orient: inherit;
+}
+
+.quill[fxflex] > .ql-toolbar {
+  flex: 0 0 auto;
+
+  -webkit-box-flex: 0;
+}
+
+.quill[fxflex] > .ql-container {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+
+  -webkit-box-flex: 1;
+}
