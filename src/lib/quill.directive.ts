@@ -222,6 +222,14 @@ export class QuillDirective implements OnInit, DoCheck, OnDestroy, OnChanges {
         toolbar.container.remove();
       }
 
+      if (this.elementRef && this.elementRef.nativeElement) {
+        const preview = this.elementRef.nativeElement.querySelector('.ql-preview');
+
+        if (preview) {
+          preview.innerHTML = '';
+        }
+      }
+
       delete this.instance;
 
       this.instance = null;
