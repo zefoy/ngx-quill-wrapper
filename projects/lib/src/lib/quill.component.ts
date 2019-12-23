@@ -9,8 +9,8 @@ import { QuillConfigInterface, QuillModulesInterface } from './quill.interfaces'
 @Component({
   selector: 'quill',
   exportAs: 'ngxQuill',
-  templateUrl: '../../dist/lib/quill.component.html',
-  styleUrls: [ '../../dist/lib/quill.component.css' ],
+  templateUrl: './quill.component.html',
+  styleUrls: [ './quill.component.css' ],
   encapsulation: ViewEncapsulation.None
 })
 export class QuillComponent implements AfterViewInit {
