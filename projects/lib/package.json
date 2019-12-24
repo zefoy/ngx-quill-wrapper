@@ -2,7 +2,7 @@
   "name": "ngx-quill-wrapper",
   "description": "Angular wrapper library for quill",
   "bugs": "https://github.com/zefoy/ngx-quill-wrapper/issues",
-  "version": "9.0.0-1",
+  "version": "9.0.0-2",
   "license": "MIT",
   "dependencies": {
     "quill": "^1.3.0"
