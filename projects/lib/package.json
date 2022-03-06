@@ -2,7 +2,7 @@
   "name": "ngx-quill-wrapper",
   "description": "Angular wrapper library for quill",
   "bugs": "https://github.com/zefoy/ngx-quill-wrapper/issues",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
