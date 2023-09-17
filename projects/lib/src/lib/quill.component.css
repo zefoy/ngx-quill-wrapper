@@ -16,7 +16,7 @@
   height: calc(100% - 42px);
 }
 
-.quill[fxflex] {
+.quill.flex {
   display: flex;
   flex-direction: inherit;
   align-items: inherit;
@@ -27,16 +27,20 @@
   -webkit-box-orient: inherit;
 }
 
-.quill[fxflex] > .ql-toolbar {
+.quill.flex > .ql-toolbar {
   flex: 0 0 auto;
 
   -webkit-box-flex: 0;
 }
 
-.quill[fxflex] > .ql-container {
+.quill.flex > .ql-container {
   flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
 
   -webkit-box-flex: 1;
+}
+
+.quill .ql-snow .ql-tooltip::before {
+  display: none !important;
 }

@@ -1,37 +1,37 @@
-<div class="box-container" fxLayout="column" [ngStyle.lt-sm]="'min-height: 800px;'">
+<div class="box-container flex-col">
   <div class="app-title">Simple example app for the ngx-quill-wrapper</div>
 
   <div class="info-container">
     This example only shows some of the available toolbar tools, to see all check Quill demos / documentation.
   </div>
 
-  <div class="horizontal-container" fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="stretch" fxFlex="auto">
-    <div class="vertical-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="50%">
+  <div class="horizontal-container flex content-stretch flex-col md:flex-row ">
+    <div class="vertical-container flex-1 flex-col content-stretch" style="min-width: 0">
       <div class="box-title">Settings</div>
 
-      <div class="action-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="auto">
-        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex="auto" (click)='toggleType()'>{{(type === "component") ? "Switch to directive" : "Switch to component"}}</div>
+      <div class="action-container flex-col content-stretch">
+        <div class="action-button flex items-center justify-center" (click)='toggleType()'>{{(type === "component") ? "Switch to directive" : "Switch to component"}}</div>
 
-        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex="auto" (click)='toggleDisabled()'>Toggle disabled state</div>
+        <div class="action-button flex items-center justify-center" (click)='toggleDisabled()'>Toggle disabled state</div>
 
-        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex="auto" (click)='toggleReadonly()'>Toggle read-only mode</div>
+        <div class="action-button flex items-center justify-center" (click)='toggleReadonly()'>Toggle read-only mode</div>
 
-        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex="auto" (click)='toggleToolbar()'>Toggle toolbar showing</div>
+        <div class="action-button flex items-center justify-center" (click)='toggleToolbar()'>Toggle toolbar showing</div>
 
-        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex="auto" (click)='toggleTheme()'>{{(config.theme === "snow") ? "Change to bubble theme" : "Change to snow theme"}}</div>
+        <div class="action-button flex items-center justify-center" (click)='toggleTheme()'>{{(config.theme === "snow") ? "Change to bubble theme" : "Change to snow theme"}}</div>
 
-        <div class="action-button" fxLayout="column" fxLayoutAlign="center" fxFlex="auto" (click)='clearEditorContent()'>Clear the editor content</div>
+        <div class="action-button flex items-center justify-center" (click)='clearEditorContent()'>Clear the editor content</div>
       </div>
     </div>
 
-    <div class="vertical-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="50%">
+    <div class="vertical-container flex-1 flex-col content-stretch" style="min-width: 0">
       <div class="box-title">Quill</div>
 
-      <div class="content-container" fxLayout="column" fxLayoutAlign="stretch" fxFlex="auto">
-        <quill *ngIf="type === 'component' && show" fxFlex="auto" [config]="config" [value]="'Some <b>example</b> content'" [modules]="modules" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (valueChange)="onValueChange($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
+      <div class="content-container flex flex-col content-stretch">
+        <quill *ngIf="type === 'component' && show" class="flex" [config]="config" [value]="'Some <b>example</b> content'" [modules]="modules" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (valueChange)="onValueChange($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
         </quill>
 
-        <div *ngIf="type === 'directive' && show" class="quill-editor" fxLayout="column" fxFlex="auto" [quill]="config" [modules]="modules" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
+        <div *ngIf="type === 'directive' && show" class="quill-editor flex flex-1" [quill]="config" [modules]="modules" [disabled]="disabled" (blur)="onEditorBlur($event)" (focus)="onEditorFocus($event)" (editorCreate)="onEditorCreate($event)" (contentChange)="onContentChange($event)" (selectionChange)="onSelectionChange($event)">
           Some <b>example</b> content
         </div>
       </div>
