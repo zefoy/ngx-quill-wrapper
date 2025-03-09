@@ -4,6 +4,10 @@
 
 This is an Angular wrapper library for the [Quill](http://quilljs.com/). To use this library you should get familiar with the Quill documentation as well since this documentation only explains details specific to this wrapper.
 
+### EOL notice
+
+Version 17.0.0 will be the last release of this library. I recommend you to switch to using ngx-quill package which is better maintained and uses latest Quill verison.
+
 ### Quick links
 
 [Example application](https://zefoy.github.io/ngx-quill-wrapper/)
